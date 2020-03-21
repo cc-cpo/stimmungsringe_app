@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'datamappings.dart';
 
 import 'package:stimmungsringeapp/widgets/avatar_row.dart';
 
@@ -46,32 +47,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class HierGehtsWeiterPage extends StatefulWidget {
-  HierGehtsWeiterPage({Key key, this.title}) : super(key: key) {
-    debugPrint('asdfsdfsdf');
 
-
-  }
-
-  final String title;
-
-  @override
-  _HierGehtsWeiterPage createState() => _HierGehtsWeiterPage();
-
-}
-
-class _HierGehtsWeiterPage extends State<HierGehtsWeiterPage> {
-  var _textControllerName = TextEditingController();
-  var _textControllerEmail = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      child:
-        new Text('weiter here')
-      ,);
-  }
-}
 
 
 class _MyHomePageState extends State<MyHomePage> {
