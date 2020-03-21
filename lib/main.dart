@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,11 +14,17 @@ void main() {
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-        title: 'Stimmungsringe', home: MyHomePage(title: 'Übersicht'));
+        title: 'Stimmungsringe', home: MyHomePage(title: 'Übersicht'), routes: {
+      '/weiter': (context) {
+        return HierGehtsWeiterPage();
+      }
+    },);
   }
 }
 
@@ -38,6 +45,34 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
+class HierGehtsWeiterPage extends StatefulWidget {
+  HierGehtsWeiterPage({Key key, this.title}) : super(key: key) {
+    debugPrint('asdfsdfsdf');
+
+
+  }
+
+  final String title;
+
+  @override
+  _HierGehtsWeiterPage createState() => _HierGehtsWeiterPage();
+
+}
+
+class _HierGehtsWeiterPage extends State<HierGehtsWeiterPage> {
+  var _textControllerName = TextEditingController();
+  var _textControllerEmail = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      child:
+        new Text('weiter here')
+      ,);
+  }
+}
+
 
 class _MyHomePageState extends State<MyHomePage> {
 //  _MyHomePageState() : super() {
@@ -74,6 +109,17 @@ class _MyHomePageState extends State<MyHomePage> {
               gradientEndColor: Color(0xffd7670b),
               icon: FontAwesomeIcons.cloud,
             ),
+            RaisedButton(
+              child: Text('click'),
+              onPressed: () {
+                debugPrint('onPReesss');
+                Navigator.pushNamed(context, '/weiter');
+                /*CupertinoPageRoute(
+                  builder: (context) => HierGehtsWeiterPage(title: 'weiter'),
+                );
+                */
+              }
+              ),
           ],
         ),
       ),
