@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stimmungsringeapp/data/dashboard.dart';
+import 'package:stimmungsringeapp/data/sentiment.dart';
 import 'package:stimmungsringeapp/pages/other_detail_page.dart';
 import 'package:stimmungsringeapp/pages/overview.dart';
 import 'package:stimmungsringeapp/pages/set_my_sentiment.dart';
@@ -30,13 +31,7 @@ class _SentimentAppState extends State<SentimentApp> {
         '/': (_) => OverviewPage(dashboard: _dashboard),
         'my-sentiment': (_) => SetMySentimentPage(
               dashboard: _dashboard,
-              onSentimentChange: (sentiment) {
-                if (_dashboard.myTile.sentimentStatus.sentimentCode !=
-                    sentiment.name) {
-                  setState(() => _dashboard
-                      .myTile.sentimentStatus.sentimentCode = sentiment.name);
-                }
-              },
+              onSentimentChange: _updateMySentiment,
             ),
         'other-detail-page': (context) => OtherDetailPage(
             otherUserId: ModalRoute.of(context).settings.arguments)
@@ -46,8 +41,17 @@ class _SentimentAppState extends State<SentimentApp> {
 
   @override
   void initState() {
+    super.initState();
     loadDashboardPageData().then((dashboard) {
-      this.setState(() => _dashboard = dashboard);
+      setState(() => _dashboard = dashboard);
     });
+  }
+
+  _updateMySentiment(final Sentiment sentiment) {
+    if (Sentiment.fromSentimentStatus(_dashboard.myTile.sentimentStatus) !=
+        sentiment) {
+      setState(() =>
+          _dashboard.myTile.sentimentStatus.sentimentCode = sentiment.name);
+    }
   }
 }
