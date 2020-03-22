@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stimmungsringeapp/data/dashboard.dart';
+import 'package:stimmungsringeapp/pages/loading_spinner_page.dart';
 import 'package:stimmungsringeapp/pages/other_detail_page.dart';
-import 'package:stimmungsringeapp/pages/overview.dart';
-import 'package:stimmungsringeapp/pages/set_my_sentiment.dart';
+import 'package:stimmungsringeapp/pages/overview_page.dart';
+import 'package:stimmungsringeapp/pages/set_my_sentiment_page.dart';
 
 void main() {
   // TODO: throws exceptions on start
@@ -27,7 +28,9 @@ class _SentimentAppState extends State<SentimentApp> {
     return CupertinoApp(
       title: 'Stimmungsringe',
       routes: {
-        '/': (_) => OverviewPage(dashboard: _dashboard),
+        '/': (_) => _dashboard != null
+            ? OverviewPage(dashboard: _dashboard)
+            : LoadingSpinnerPage(),
         'my-sentiment': (_) => SetMySentimentPage(
               dashboard: _dashboard,
               onSentimentChange: (sentiment) {
