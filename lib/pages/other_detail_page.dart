@@ -1,19 +1,26 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stimmungsringeapp/data/dashboard.dart';
+import 'package:stimmungsringeapp/data/detail_pages.dart';
 import 'package:stimmungsringeapp/data/sentiment.dart';
+import 'package:stimmungsringeapp/global_constants.dart';
 import 'package:stimmungsringeapp/widgets/avatar_row.dart';
 
-import '../global_constants.dart';
-
-class OtherDetailPage extends StatelessWidget {
-  final Dashboard dashboard;
+class OtherDetailPage extends StatefulWidget {
   final String otherUserId;
 
-  OtherDetailPage(
-      {Key key, @required this.dashboard, @required String this.otherUserId})
-      : assert(dashboard != null),
-        assert(otherUserId != null),
-        super(key: key);
+  OtherDetailPage({@required String this.otherUserId}) {}
+
+  @override
+  State<StatefulWidget> createState() {
+    return _OtherDetailPageState(otherUserId: otherUserId);
+  }
+}
+
+class _OtherDetailPageState extends State<OtherDetailPage> {
+  final String otherUserId;
+  OtherDetail _otherDetail;
+
+  _OtherDetailPageState({@required String this.otherUserId})
+      : assert(otherUserId != null) {}
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +33,10 @@ class OtherDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             AvatarRow(
-              name: dashboard.myTile.user.displayName,
-              image: NetworkImage(avatarImageUrl(dashboard.myTile.user.userId)),
-              avatarSentiment: Sentiment.fromSentimentStatus(
-                  dashboard.myTile.sentimentStatus),
+              name: _otherDetail.user.displayName,
+              image: NetworkImage(avatarImageUrl(_otherDetail.user.userId)),
+              avatarSentiment:
+                  Sentiment.fromSentimentStatus(_otherDetail.sentimentStatus),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -52,5 +59,12 @@ class OtherDetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    loadOtherDetailPageData(otherUserId).then((otherDetail) {
+      this.setState(() => _otherDetail = otherDetail);
+    });
   }
 }

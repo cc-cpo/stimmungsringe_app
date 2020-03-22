@@ -1,11 +1,12 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'user.dart';
-import 'sentiment.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:stimmungsringeapp/global_constants.dart';
 
+import 'sentiment.dart';
+import 'user.dart';
 
-Future<OtherDetailPage> loadOtherDetailPageData(String userId) async {
+Future<OtherDetail> loadOtherDetailPageData(String userId) async {
   final String url = restUrlOtherStatus(userId);
 
   http.Response response = await http.get(
@@ -13,11 +14,10 @@ Future<OtherDetailPage> loadOtherDetailPageData(String userId) async {
     headers: {'X-User-ID': sampleUserMutti},
   );
 
-  var detailPage = OtherDetailPage.fromJson(json.decode(response.body));
+  var detailPage = OtherDetail.fromJson(json.decode(response.body));
 
   return detailPage;
 }
-
 
 class Suggestion {
   String text;
@@ -27,17 +27,18 @@ class Suggestion {
   }
 }
 
-class OtherDetailPage {
+class OtherDetail {
   UserMinimal user;
   SentimentStatus sentimentStatus;
   List<Suggestion> suggestions;
 
-  OtherDetailPage.fromJson(Map<String, dynamic> jsonMap) {
+  OtherDetail.fromJson(Map<String, dynamic> jsonMap) {
     this.user = UserMinimal.fromJson(jsonMap['user']);
     this.sentimentStatus = SentimentStatus.fromJson(jsonMap['sentimentStatus']);
 
     final suggestionsJson = (jsonMap['suggestions'] as List);
-    this.suggestions = suggestionsJson.map((sugg) => Suggestion.fromJson(sugg)).toList(growable: false);
-
+    this.suggestions = suggestionsJson
+        .map((sugg) => Suggestion.fromJson(sugg))
+        .toList(growable: false);
   }
 }
