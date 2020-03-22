@@ -10,8 +10,9 @@ class OverviewPage extends StatelessWidget {
 
   OverviewPage({
     Key key,
-    this.dashboard,
-  }) : super(key: key);
+    @required this.dashboard,
+  })  : assert(dashboard != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,38 +30,35 @@ class OverviewPage extends StatelessWidget {
       child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: dashboard == null ? [] : children(context),
+          children: <Widget>[
+            AvatarRow(
+              name: dashboard.myTile.user.displayName,
+              image: NetworkImage(avatarImageUrl(dashboard.myTile.user.userId)),
+              avatarSentiment: Sentiment.fromSentimentStatus(
+                  dashboard.myTile.sentimentStatus),
+              onSentimentIconTap: () =>
+                  Navigator.pushNamed(context, 'my-sentiment'),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 8),
+              child: Title(
+                color: CupertinoColors.black,
+                child: Text(
+                  'Meine Achtgeber:',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(8),
+                children: otherTiles(context),
+              ),
+            )
+          ],
         ),
       ),
     );
-  }
-
-  List<Widget> children(BuildContext context) {
-    return <Widget>[
-      AvatarRow(
-        name: dashboard.myTile.user.displayName,
-        image: NetworkImage(avatarImageUrl(dashboard.myTile.user.userId)),
-        avatarSentiment:
-            Sentiment.fromSentimentStatus(dashboard.myTile.sentimentStatus),
-        onSentimentIconTap: () => Navigator.pushNamed(context, 'my-sentiment'),
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(vertical: 8),
-        child: Title(
-          color: CupertinoColors.black,
-          child: Text(
-            'Meine Achtgeber:',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-      Expanded(
-        child: ListView(
-          padding: const EdgeInsets.all(8),
-          children: otherTiles(context),
-        ),
-      )
-    ];
   }
 
   List<Widget> otherTiles(BuildContext context) {

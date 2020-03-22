@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:stimmungsringeapp/data/detail_pages.dart';
 import 'package:stimmungsringeapp/data/sentiment.dart';
 import 'package:stimmungsringeapp/global_constants.dart';
+import 'package:stimmungsringeapp/pages/loading_spinner_page.dart';
 import 'package:stimmungsringeapp/widgets/avatar_row.dart';
 
 class OtherDetailPage extends StatefulWidget {
@@ -24,6 +25,10 @@ class _OtherDetailPageState extends State<OtherDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_otherDetail == null) {
+      return LoadingSpinnerPage();
+    }
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Text('Wie geht es eigentlich ... ' + otherUserId),
