@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:stimmungsringeapp/data/detail_pages.dart';
 import 'package:stimmungsringeapp/data/sentiment.dart';
 import 'package:stimmungsringeapp/global_constants.dart';
-import 'package:stimmungsringeapp/pages/loading_spinner_page.dart';
 import 'package:stimmungsringeapp/widgets/avatar_row.dart';
 
 class OtherDetailPage extends StatefulWidget {
@@ -25,44 +24,44 @@ class _OtherDetailPageState extends State<OtherDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_otherDetail == null) {
-      return LoadingSpinnerPage();
-    }
-
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text('Wie geht es eigentlich ... ' + otherUserId),
+        middle: Text('Wie geht es eigentlich ... '),
       ),
       child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            AvatarRow(
-              name: _otherDetail.user.displayName,
-              image: NetworkImage(avatarImageUrl(_otherDetail.user.userId)),
-              avatarSentiment:
-                  Sentiment.fromSentimentStatus(_otherDetail.sentimentStatus),
-            ),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: Title(
-                color: CupertinoColors.black,
-                child: Text(
-                  'Die Küche könnte etwas sauberer sein ...',
-                ),
-              ),
-            ),
-            Expanded(
-              child: GridView.count(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 3,
-                children: [Text('sadf')], // ex all sentiments
-              ),
-            )
-          ],
-        ),
+        child: _otherDetail != null ? buildContent() : makeSpinner(),
       ),
+    );
+  }
+
+  Column buildContent() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        AvatarRow(
+          name: _otherDetail.user.displayName,
+          image: NetworkImage(avatarImageUrl(_otherDetail.user.userId)),
+          avatarSentiment:
+              Sentiment.fromSentimentStatus(_otherDetail.sentimentStatus),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          child: Title(
+            color: CupertinoColors.black,
+            child: Text(
+              'Die Küche könnte etwas sauberer sein ...',
+            ),
+          ),
+        ),
+        Expanded(
+          child: GridView.count(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: 3,
+            children: [Text('sadf')], // ex all sentiments
+          ),
+        )
+      ],
     );
   }
 
@@ -71,5 +70,13 @@ class _OtherDetailPageState extends State<OtherDetailPage> {
     loadOtherDetailPageData(otherUserId).then((otherDetail) {
       this.setState(() => _otherDetail = otherDetail);
     });
+  }
+
+  Widget makeSpinner() {
+    return Center(
+      child: CupertinoActivityIndicator(
+        animating: true,
+      ),
+    );
   }
 }
