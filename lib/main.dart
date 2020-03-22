@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:stimmungsringeapp/data/dashboard.dart';
 import 'package:stimmungsringeapp/pages/overview.dart';
 import 'package:stimmungsringeapp/pages/set_my_sentiment.dart';
+import 'package:stimmungsringeapp/pages/other_detail_page.dart';
 
 void main() {
   // TODO: throws exceptions on start
@@ -39,6 +40,10 @@ class _SentimentAppState extends State<SentimentApp> {
                 }
               },
             ),
+        'other-detail-page': (_) =>
+            OtherDetailPage(
+            dashboard: _dashboard,
+          )
       },
     );
   }

@@ -41,7 +41,7 @@ class OverviewPage extends StatelessWidget {
         name: dashboard.myTile.user.displayName,
         image: NetworkImage(avatarImageUrl(dashboard.myTile.user.userId)),
         avatarSentiment:
-        Sentiment.fromSentimentStatus(dashboard.myTile.sentimentStatus),
+            Sentiment.fromSentimentStatus(dashboard.myTile.sentimentStatus),
         onSentimentIconTap: () => Navigator.pushNamed(context, 'my-sentiment'),
       ),
       Container(
@@ -57,24 +57,26 @@ class OverviewPage extends StatelessWidget {
       Expanded(
         child: ListView(
           padding: const EdgeInsets.all(8),
-          children: otherTiles(),
+          children: otherTiles(context),
         ),
       )
     ];
   }
 
-  List<Widget> otherTiles() {
+  List<Widget> otherTiles(BuildContext context) {
     return dashboard.otherTiles
         .map(
           (tile) => Container(
-            padding: EdgeInsets.symmetric(vertical: 4),
-            child: AvatarRowCondensed(
-              name: tile.user.displayName,
-              image: NetworkImage(avatarImageUrl(tile.user.userId)),
-              avatarSentiment:
-              Sentiment.fromSentimentStatus(tile.sentimentStatus),
-            ),
-          ),
+              padding: EdgeInsets.symmetric(vertical: 4),
+              child: GestureDetector(
+                child: AvatarRowCondensed(
+                  name: tile.user.displayName,
+                  image: NetworkImage(avatarImageUrl(tile.user.userId)),
+                  avatarSentiment:
+                      Sentiment.fromSentimentStatus(tile.sentimentStatus),
+                ),
+                onTap: () => Navigator.pushNamed(context, 'other-detail-page'),
+              )),
         )
         .toList(growable: false);
   }
