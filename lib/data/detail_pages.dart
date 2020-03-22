@@ -14,6 +14,8 @@ Future<OtherDetail> loadOtherDetailPageData(String userId) async {
     headers: {'X-User-ID': sampleUserMutti},
   );
 
+  //await new Future.delayed(const Duration(seconds: 1));
+
   var detailPage = OtherDetail.fromJson(json.decode(response.body));
 
   return detailPage;
