@@ -2,22 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:stimmungsringeapp/data/dashboard.dart';
 import 'package:stimmungsringeapp/data/sentiment.dart';
 import 'package:stimmungsringeapp/widgets/avatar_row.dart';
-import 'package:stimmungsringeapp/widgets/sentiment_icon_button.dart';
 
 import '../global_constants.dart';
 
 class OtherDetailPage extends StatelessWidget {
   final Dashboard dashboard;
+  final String otherUserId;
 
-  OtherDetailPage({Key key, @required this.dashboard})
+  OtherDetailPage(
+      {Key key, @required this.dashboard, @required String this.otherUserId})
       : assert(dashboard != null),
+        assert(otherUserId != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text('Wie geht es eigentlich ...'),
+        middle: Text('Wie geht es eigentlich ... ' + otherUserId),
       ),
       child: SafeArea(
         child: Column(

@@ -75,7 +75,7 @@ class OverviewPage extends StatelessWidget {
                   avatarSentiment:
                       Sentiment.fromSentimentStatus(tile.sentimentStatus),
                 ),
-                onTap: () => Navigator.pushNamed(context, 'other-detail-page'),
+                onTap: () => Navigator.pushNamed(context, 'other-detail-page', arguments: tile.user.userId),
               )),
         )
         .toList(growable: false);

@@ -40,9 +40,10 @@ class _SentimentAppState extends State<SentimentApp> {
                 }
               },
             ),
-        'other-detail-page': (_) =>
+        'other-detail-page': (context) =>
             OtherDetailPage(
             dashboard: _dashboard,
+            otherUserId: ModalRoute.of(context).settings.arguments
           )
       },
     );
