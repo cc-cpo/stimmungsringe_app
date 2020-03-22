@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:stimmungsringeapp/data/detail_pages.dart';
 import 'package:stimmungsringeapp/data/sentiment.dart';
 import 'package:stimmungsringeapp/global_constants.dart';
@@ -54,11 +55,8 @@ class _OtherDetailPageState extends State<OtherDetailPage> {
           ),
         ),
         Expanded(
-          child: GridView.count(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 3,
-            children: [Text('sadf')], // ex all sentiments
+          child: ListView(
+            children: buildSuggestions(),
           ),
         )
       ],
@@ -78,5 +76,30 @@ class _OtherDetailPageState extends State<OtherDetailPage> {
         animating: true,
       ),
     );
+  }
+
+  Widget buildSuggestionRow(Suggestion suggestion) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  'https://1s83z11vs1os1aeaj31io68i-wpengine.netdna-ssl.com/wp-content/themes/mobsquad/img/avatar-fallback.jpg'),
+            ),
+          ),
+          Expanded(child: Text(suggestion.text))
+        ],
+      ),
+    );
+  }
+
+  List<Widget> buildSuggestions() {
+    return _otherDetail.suggestions
+        .map((sugg) => buildSuggestionRow(sugg))
+        .toList(growable: false);
   }
 }
