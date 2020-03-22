@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stimmungsringeapp/data/dashboard.dart';
 import 'package:stimmungsringeapp/data/detail_pages.dart';
 import 'package:stimmungsringeapp/data/sentiment.dart';
 import 'package:stimmungsringeapp/global_constants.dart';
@@ -8,11 +9,16 @@ import 'package:stimmungsringeapp/widgets/avatar_row.dart';
 class OtherDetailPage extends StatefulWidget {
   final String otherUserId;
 
-  OtherDetailPage({@required String this.otherUserId}) {}
+  final Dashboard dashboard;
+
+  OtherDetailPage(
+      {@required String this.otherUserId,
+      @required Dashboard this.dashboard}) {}
 
   @override
   State<StatefulWidget> createState() {
-    return _OtherDetailPageState(otherUserId: otherUserId);
+    return _OtherDetailPageState(
+        otherUserId: otherUserId, dashboard: dashboard);
   }
 }
 
@@ -20,7 +26,10 @@ class _OtherDetailPageState extends State<OtherDetailPage> {
   final String otherUserId;
   OtherDetail _otherDetail;
 
-  _OtherDetailPageState({@required String this.otherUserId})
+  Dashboard dashboard;
+
+  _OtherDetailPageState(
+      {@required String this.otherUserId, @required Dashboard this.dashboard})
       : assert(otherUserId != null) {}
 
   @override
@@ -87,8 +96,8 @@ class _OtherDetailPageState extends State<OtherDetailPage> {
           Padding(
             padding: EdgeInsets.only(right: 15),
             child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://1s83z11vs1os1aeaj31io68i-wpengine.netdna-ssl.com/wp-content/themes/mobsquad/img/avatar-fallback.jpg'),
+              backgroundImage:
+                  NetworkImage(avatarImageUrl(dashboard.myTile.user.userId)),
             ),
           ),
           Expanded(child: Text(suggestion.text))

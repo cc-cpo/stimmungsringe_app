@@ -37,6 +37,7 @@ class _SentimentAppState extends State<SentimentApp> {
               onSentimentChange: _updateMySentiment,
             ),
         'other-detail-page': (context) => OtherDetailPage(
+            dashboard: _dashboard,
             otherUserId: ModalRoute.of(context).settings.arguments)
       },
     );
